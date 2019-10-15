@@ -7,9 +7,10 @@ import { Configuration } from './config/config.keys';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpErrorFilter } from './shared/http-error.filter';
 import { DatabaseModule } from './database/database.module';
+import { UserModule } from './models/user/user.module';
 
 @Module({
-  imports: [ConfigModule, DatabaseModule],
+  imports: [ConfigModule, DatabaseModule, UserModule],
   controllers: [AppController],
   providers: [AppService,
     {
