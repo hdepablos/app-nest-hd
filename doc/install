@@ -1,1 +1,4 @@
 npm i -D dotenv @types/dotenv
+
+npm i --save pg typeorm @nestjs/typeorm
+
