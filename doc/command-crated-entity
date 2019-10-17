@@ -1,8 +1,29 @@
-nest g mo models/user_acceso
-touch src/models/user_acceso/user_acceso.entity.ts
-    @Entity('table_name')
-    export class UserAcceso extends BaseEntity{
-    }
-touch src/models/user_acceso/user_acceso.repository.ts    ?
+Nota: no puede poner _ cambielo a -
 
+    nest g mo modules/user-acceso && 
+    nest g co modules/user-acceso && 
+    nest g s modules/user-acceso && 
+    nest g interface modules/user-acceso/user-acceso && 
+    touch src/modules/user-acceso/user-acceso.dto.ts && 
+    touch src/modules/user-acceso/user-acceso.entity.ts
+    
+    Pentidente a ver si es necesario:
+        touch src/modules/user-acceso/user-acceso.repository.ts
 
+    Contenido: 
+        Modulo: En el @Module({ -|- })
+            Importa:
+                - Los Entity
+                    -|- imports: [TypeOrmModule.forFeature([UserEntity, IdeaEntity])]
+        Controlador: En el constructor( -|- ){}
+            Importa:
+                - El servicio
+                    -|- private readonly _userSerice: UserService
+        Servicio:
+            Importa:
+                - Los Entity
+                - Dto y RO 
+            Injecta: En el constructor( -- ){}
+                - Repository
+        
+            
