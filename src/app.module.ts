@@ -9,9 +9,10 @@ import { HttpErrorFilter } from './shared/http-error.filter';
 import { DatabaseModule } from './database/database.module';
 import { UserModule } from './modules/user/user.module';
 import { RoleModule } from './modules/role/role.module';
+import { UserAccesoModule } from './modules/user-acceso/user-acceso.module';
 
 @Module({
-  imports: [ConfigModule, DatabaseModule, UserModule, RoleModule],
+  imports: [ConfigModule, DatabaseModule, UserModule, RoleModule, UserAccesoModule],
   controllers: [AppController],
   providers: [AppService,
     {

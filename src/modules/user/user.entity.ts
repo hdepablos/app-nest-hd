@@ -1,5 +1,6 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable, ManyToOne, JoinColumn, OneToMany } from "typeorm";
 import { RoleEntity } from "../role/role.entity";
+import { UserAccesoEntity } from "../user-acceso/user-acceso.entity";
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -44,7 +45,10 @@ export class UserEntity extends BaseEntity {
             referencedColumnName: "id"
         }
     })
-    roles: RoleEntity[]
+    roles: RoleEntity[];
+
+    @OneToMany(type => UserAccesoEntity, userAcceso => userAcceso.user_id)
+    user_id: UserAccesoEntity[];
     
     @CreateDateColumn()
     created: Date;

@@ -23,10 +23,11 @@ ManyToMany => user -> roles / roles -> user
 ManyToOne
     Doc: https://github.com/typeorm/typeorm/blob/master/docs/many-to-one-one-to-many-relations.md
 
-    Tabla: Photo => Muchas Photo pertenece a un users
-        @ManyToOne(type => User, user => user.photos)
-        user: User;
+    Tabla: UserAcceso => Muchas UserAccesos pertenece a un users
+        @ManyToOne(type => UserEntity, user => user.user_id, { onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+        @JoinColumn({ name: "user_id" })
+        user_id: UserEntity;
 
-    Tabla: User => Un usuario tiene muchas photos
-        @OneToMany(type => Photo, photo => photo.user)
-        photos: Photo[];
+    Tabla: User => Un usuario tiene muchas UserAccesos
+        @OneToMany(type => UserAccesoEntity, userAcceso => userAcceso.user_id)
+        user_id: UserAccesoEntity[];

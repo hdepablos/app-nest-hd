@@ -1,4 +1,4 @@
-Nota: no puede poner _ cambielo a -
+Nota: no puede poner (_:) cambielo a -
 
     nest g mo modules/user-acceso && 
     nest g co modules/user-acceso && 
