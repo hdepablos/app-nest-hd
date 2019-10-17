@@ -1,0 +1,8 @@
+nest g mo models/user_acceso
+touch src/models/user_acceso/user_acceso.entity.ts
+    @Entity('table_name')
+    export class UserAcceso extends BaseEntity{
+    }
+touch src/models/user_acceso/user_acceso.repository.ts    ?
+
+

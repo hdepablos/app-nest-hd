@@ -1,0 +1,32 @@
+Doc: https://github.com/typeorm/typeorm/tree/master/docs
+
+ManyToMany => user -> roles / roles -> user
+    Tabla: User
+        @ManyToMany(type => Role, role => role.users)
+        @JoinTable({
+            name: "user_roles", // table name for the junction table of this relation
+            joinColumn: {
+                name: "user_id",
+                referencedColumnName: "id"
+            },
+            inverseJoinColumn: {
+                name: "role_id",
+                referencedColumnName: "id"
+            }
+        })
+        roles: Role[]
+
+    Tabla: Role
+        @ManyToMany(type => User, user => user.roles)
+        users: User[]
+
+ManyToOne
+    Doc: https://github.com/typeorm/typeorm/blob/master/docs/many-to-one-one-to-many-relations.md
+
+    Tabla: Photo => Muchas Photo pertenece a un users
+        @ManyToOne(type => User, user => user.photos)
+        user: User;
+
+    Tabla: User => Un usuario tiene muchas photos
+        @OneToMany(type => Photo, photo => photo.user)
+        photos: Photo[];

@@ -1,5 +1,5 @@
 npm i -D dotenv @types/dotenv
 
-npm i --save pg typeorm @nestjs/typeorm
+npm i --save typeorm @nestjs/typeorm pg
 
 sudo npm i -g ts-node
