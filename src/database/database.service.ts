@@ -10,16 +10,17 @@ export const databaseProviders = [
         imports: [ConfigModule],
         inject: [ConfigService],
         async useFactory(config: ConfigService){
-            return {
-                // ssl: true,
+            const obj = {
+                ssl: true,
                 type: 'postgres' as 'postgres',
                 host: config.get(Configuration.HOST),
                 username: config.get(Configuration.USERNAME),
                 password: config.get(Configuration.PASSWORD),
                 database: config.get(Configuration.DATABASE),
-                entities: [join(__dirname, '/../**/*.entity{.ts,.js}')],
+                entities: [join(__dirname, '/../modules/**/*.entity{.ts,.js}')],
                 migrations: [join(__dirname, '/migrations/*{.ts,.js}')],
-            } as ConnectionOptions
+            };
+            return obj as ConnectionOptions
         }
     })
 ]
