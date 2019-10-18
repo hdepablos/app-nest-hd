@@ -2,7 +2,7 @@ import { Injectable, HttpException, HttpStatus, BadRequestException } from '@nes
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { Repository, getConnection } from 'typeorm';
-import { UserDTO } from './user.dto';
+import { UserRO } from './user.dto';
 import { RoleEntity } from '../role/role.entity';
 
 @Injectable()
@@ -25,9 +25,11 @@ export class UserService {
         return user;
     }
 
-    async getAll(): Promise<UserEntity[]> {
-        const users: UserEntity[] = await this._userRepository.find();
-        return users;
+    async getAll(): Promise<UserRO[]> {
+        // const users = await this.userRepository.find({ relations: ['ideas', 'bookmarks'] });
+        const users = await this._userRepository.find({ relations: ['roles']});
+        const userDto = users.map( user => user.toResponseObject());
+        return userDto;
     }
 
     async create(user: UserEntity): Promise<UserEntity>{

@@ -1,5 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 import { RoleType } from '../role/roletype.enum';
+import { RoleEntity } from '../role/role.entity';
 
 export class UserDTO {
   @IsNotEmpty()
@@ -13,4 +14,12 @@ export class UserDTO {
 
   @IsNotEmpty()
   roles: RoleType[];
+}
+
+export class UserRO{
+    id: string;
+    username: string;
+    email: string;
+    roles?: RoleEntity[];
+    token?: string;
 }

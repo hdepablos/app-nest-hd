@@ -1,6 +1,7 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable, ManyToOne, JoinColumn, OneToMany } from "typeorm";
 import { RoleEntity } from "../role/role.entity";
 import { UserAccesoEntity } from "../user-acceso/user-acceso.entity";
+import { UserRO } from "./user.dto";
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -58,4 +59,25 @@ export class UserEntity extends BaseEntity {
 
     // @UpdateDateColumn()
     // updated: Date;
+
+    toResponseObject(showToken: boolean = false): UserRO{
+        const { id, username, email, created, token } = this;
+        const responseOject: any = {
+            id, 
+            username,
+            email,
+            created
+        }
+
+        if (this.roles) responseOject.roles = this.roles;
+        if (showToken) responseOject.token = token;
+        return responseOject;
+    }
+
+    private get token():string {
+        const{ id, username } = this;
+        
+        // Mientras tanto
+        return 'jfhjgjgjghsjdfjdhfjdf';
+    }
 }
