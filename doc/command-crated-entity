@@ -24,6 +24,4 @@ Nota: no puede poner (_:) cambielo a -
                 - Los Entity
                 - Dto y RO 
             Injecta: En el constructor( -- ){}
-                - Repository
-        
-            
+                - Repository        
