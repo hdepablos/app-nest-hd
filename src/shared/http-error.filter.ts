@@ -16,16 +16,16 @@ export class HttpErrorFilter implements ExceptionFilter {
     const status = exception.getStatus
       ? exception.getStatus()
       : HttpStatus.INTERNAL_SERVER_ERROR;
-
+      
     const errorResponse = {
       code: status,
       timestamp: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
       // timestamp: new Date().toLocaleDateString(),
       path: request.url,
       method: request.method,
-      message:
+      message: 
         (status !== HttpStatus.INTERNAL_SERVER_ERROR) ? (exception.message.error || exception.message || null)
-        : 'Internal server error',
+        : ( `Internal server error: ${exception.message}` || 'Internal server error'),
     };
 
     if (status === HttpStatus.INTERNAL_SERVER_ERROR) {

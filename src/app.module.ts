@@ -10,9 +10,10 @@ import { DatabaseModule } from './database/database.module';
 import { UserModule } from './modules/user/user.module';
 import { RoleModule } from './modules/role/role.module';
 import { UserAccesoModule } from './modules/user-acceso/user-acceso.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
-  imports: [ConfigModule, DatabaseModule, UserModule, RoleModule, UserAccesoModule],
+  imports: [ConfigModule, DatabaseModule, UserModule, RoleModule, UserAccesoModule, AuthModule],
   controllers: [AppController],
   providers: [AppService,
     {
