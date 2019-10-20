@@ -15,7 +15,7 @@ export class UserDTO {
   // @IsNotEmpty()
   // roles?: RoleType[];
 
-  @IsBoolean()
+  // @IsBoolean()
   is_active?: boolean;
 
   @ArrayNotEmpty()

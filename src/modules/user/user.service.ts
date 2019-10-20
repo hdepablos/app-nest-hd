@@ -45,7 +45,7 @@ export class UserService {
 
         if (userExist) throw new HttpException('username o email already exists', HttpStatus.CONFLICT);
 
-        // Esto es no esta inyectado nuestro repositorio
+        // Esto es cuando no esta inyectado nuestro repositorio
         // const arrRoles = await getConnection().getRepository(RoleEntity)
         //     .find({
         //         where: { isActive: true, id: In(userDto.roles) }
