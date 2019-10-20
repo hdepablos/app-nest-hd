@@ -1,4 +1,4 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable, ManyToOne, JoinColumn, OneToMany } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable, ManyToOne, JoinColumn, OneToMany, Generated } from "typeorm";
 import { RoleEntity } from "../role/role.entity";
 import { UserAccesoEntity } from "../user-acceso/user-acceso.entity";
 import { UserRO } from "./user.dto";
@@ -62,12 +62,13 @@ export class UserEntity extends BaseEntity {
     // updated: Date;
 
     toResponseObject(showToken: boolean = false): UserRO{
-        const { id, username, email, created, token } = this;
+        const { id, username, email, created, token, isActive } = this;
         const responseOject: any = {
             id, 
             username,
             email,
-            created
+            created,
+            isActive
         }
 
         if (this.roles) responseOject.roles = this.roles;
