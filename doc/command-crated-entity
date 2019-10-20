@@ -6,6 +6,15 @@ Nota: no puede poner (_:) cambielo a -
     nest g interface modules/user-acceso/user-acceso && 
     touch src/modules/user-acceso/user-acceso.dto.ts && 
     touch src/modules/user-acceso/user-acceso.entity.ts
+
+
+
+    nest g mo modules/user-roles && 
+    nest g interface modules/user-roles/user-roles && 
+    touch src/modules/user-roles/user-roles.dto.ts && 
+    touch src/modules/user-roles/user-roles.entity.ts
+
+
     
     Pentidente a ver si es necesario:
         touch src/modules/user-acceso/user-acceso.repository.ts

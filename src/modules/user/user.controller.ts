@@ -36,9 +36,13 @@ export class UserController {
         return updateUser;
     }
 
-    @Delete(':id')
-    async deleteUser(@Param('id') id: string){
-        await this._userService.delete(id)
-        return true;
+    @Patch(':id/bloquear')
+    async bloquearUser(@Param('id') id: string):Promise<Boolean>{
+        return await this._userService.bloquearUser(id)
+    }
+
+    @Delete(':id/delete')
+    async deleteUser(@Param('id') id: string): Promise<UserRO>{
+        return await this._userService.deleteUser(id);
     }
 }
