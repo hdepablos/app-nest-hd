@@ -39,13 +39,16 @@ export class UserService {
         // .andWhere("is_active = :is_active", { is_active: true })
         // .getRawMany();
 
+        console.log('si llego');
+        
+
         const userExist = await this._userRepository.findOne({
             where: [{ username: userDto.username }, { email: userDto.email }]
         })
 
         if (userExist) throw new HttpException('username o email already exists', HttpStatus.CONFLICT);
 
-        // Esto es no esta inyectado nuestro repositorio
+        // Esto es cuando no esta inyectado nuestro repositorio
         // const arrRoles = await getConnection().getRepository(RoleEntity)
         //     .find({
         //         where: { isActive: true, id: In(userDto.roles) }
