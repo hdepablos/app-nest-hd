@@ -61,7 +61,10 @@ export class UserService {
         return newUser.toResponseObject();
     }
 
-    async update(id: string, userDto: Partial<UserDTO>): Promise<UserRO> {
+    async update(id: string, userDto: Partial<UserDTO>): Promise<UserRO> {  
+        const userExist = await this._userRepository.findOne(id);
+        if (!userExist) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+        
         let newUserEntity = new UserEntity;
         if (userDto.username) newUserEntity.username = userDto.username;
         if (userDto.email) newUserEntity.email = userDto.email;
@@ -74,34 +77,47 @@ export class UserService {
                     where: { isActive: true, id: In(userDto.roles) }
                 });
 
-            // Eliminar todas las relaciones entre usuarios y roles
-            const result = await getConnection()
-                .createQueryBuilder()
-                .delete()
-                .from("user_roles")
-                .where("user_id = :user_id", { user_id: id })
-                .execute();
-
+            if (!arrRoles.length) throw new HttpException(`Not Found role id: [${userDto.roles}] o están inactivos`, HttpStatus.NOT_FOUND);
+            
             let newRoles = arrRoles.map((e) => {
                 return {
                     user_id: id,
                     role_id: e
                 }
             });
+            
+            const connection = getConnection();
+            const queryRunner = connection.createQueryRunner();
+            
+            await queryRunner.connect();
+            await queryRunner.startTransaction();
+            try {
+                // Eliminar roles
+                const result = queryRunner.manager.createQueryBuilder()
+                    .delete()
+                    .from("user_roles")
+                    .where("user_id = :user_id", { user_id: id })
+                    .execute();
 
-            // Add roles
-            await getConnection()
-                .createQueryBuilder()
-                .insert()
-                .into("user_roles")
-                .values(newRoles)
-                .execute();
+                // Add roles
+                queryRunner.manager.createQueryBuilder()
+                    .insert()
+                    .into("user_roles")
+                    .values(newRoles)
+                    .execute();
+
+                await queryRunner.commitTransaction();
+
+            } catch (err) {
+                await queryRunner.rollbackTransaction();
+            } finally {
+                await queryRunner.release();
+            }
         }
 
-        // const updateUser = await this._userRepository.update(id, newUserEntity,);
+        // Actualizar usuario;
         const updateUser = await this._userRepository.update(id, newUserEntity);
 
-        // return user.toResponseObject();
         const user: UserEntity = await this._userRepository.findOne({ where: { id }, relations: ['roles'] })
         if (!user) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
 
@@ -112,6 +128,7 @@ export class UserService {
         // Eliminar usuario funciona
         const userExist = await this._userRepository.findOne(id);
         if (!userExist) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+
         await this._userRepository.delete({ id });
 
         return userExist.toResponseObject();
@@ -122,27 +139,7 @@ export class UserService {
         const userExist = await this._userRepository.findOne(id);
         if (!userExist) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
 
-        const roles: number[] = [1];
-
-        const arrRoles = await this._roleRepository.findOne(1);
-        // {
-        // where: { isActive: true, id: In(roles) }
-        // where: { isActive: true, id: 1 }
-        // }
-        // )
-
-        console.log('Roles');
-        console.log(arrRoles);
-
         userExist.isActive = !userExist.isActive;
-        // userExist.roles.concat(arrRoles);
-
-
-        // userExist.roles = userExist.roles + arrRoles;
-
-
-        // userExist.roles.push(arrRoles);
-
         await this._userRepository.save(userExist);
 
         // Funciona para actualizar todos los campos
