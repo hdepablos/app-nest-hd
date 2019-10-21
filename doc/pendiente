@@ -1,8 +1,8 @@
-update
+-- Listo update
+
+-- Listo actualizar por transacciones
 
 Funciones antes de guardar en base de datos
-
-actualizar por transacciones
 
 restrinciones en la tabla n:n user_roles
     user_id - role_id = no se puede repetir en base de datos

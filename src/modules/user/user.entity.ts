@@ -1,4 +1,4 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable, ManyToOne, JoinColumn, OneToMany, Generated } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable, ManyToOne, JoinColumn, OneToMany, Generated, BeforeInsert, BeforeUpdate, AfterLoad } from "typeorm";
 import { RoleEntity } from "../role/role.entity";
 import { UserAccesoEntity } from "../user-acceso/user-acceso.entity";
 import { UserRO } from "./user.dto";
@@ -82,4 +82,44 @@ export class UserEntity extends BaseEntity {
         // Mientras tanto
         return 'jfhjgjgjghsjdfjdhfjdf';
     }
+
+    
+    // @BeforeInsert()
+    // async lowerUserNameI() {
+    //     this.username = this.username.toLocaleLowerCase();
+    // }
+
+    // @BeforeUpdate()
+    // async lowerUserNameU(){
+    //     this.username = this.username.toLocaleLowerCase();
+    // }
+
+    // private tempUserName: string;
+
+    // @AfterLoad()
+    // private loadTempPassword(): void {
+    //     console.log('load ' + this.username);
+        
+    //     this.tempUserName = this.username;
+    // }
+
+    // @BeforeUpdate()
+    // private encryptPassword(): void {
+    //     console.log('before ' + this.username);
+        
+    //     if (this.tempUserName !== this.password) {
+    //         this.tempUserName = this.username.toLocaleLowerCase();
+    //     }
+    // }
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    hashPassword() {
+        console.log('*************************************');
+        
+        if (this.username) {
+            this.username = this.username.toLocaleLowerCase();
+        }
+    }
+    
 }
