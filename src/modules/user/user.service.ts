@@ -4,7 +4,6 @@ import { UserEntity } from './user.entity';
 import { Repository, getConnection, In } from 'typeorm';
 import { UserRO, UserDTO } from './user.dto';
 import { RoleEntity } from '../role/role.entity';
-import { RoleRepository } from '../role/role.repository';
 
 @Injectable()
 export class UserService {
@@ -39,9 +38,10 @@ export class UserService {
         // .andWhere("is_active = :is_active", { is_active: true })
         // .getRawMany();
 
-        const userExist = await this._userRepository.findOne({
-            where: [{ username: userDto.username }, { email: userDto.email }]
-        })
+        const userExist = await this._userRepository
+            .findOne({
+                where: [{ username: userDto.username }, { email: userDto.email }]
+            })
 
         if (userExist) throw new HttpException('username o email already exists', HttpStatus.CONFLICT);
 

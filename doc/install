@@ -5,3 +5,13 @@ npm i --save typeorm @nestjs/typeorm pg
 sudo npm i -g ts-node
 
 npm class-validator class-transformer -S
+
+npm install --save @nestjs/passport passport passport-local
+
+npm install --save-dev @types/passport-local
+
+npm i @nestjs/passport @nestjs/jwt passport-jwt bcryptjs jsonwebtoken
+
+npm i -D @types/bcryptjs @types/passport @types/passport-jwt
+
+npm i passport -S

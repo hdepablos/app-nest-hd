@@ -83,7 +83,6 @@ export class UserEntity extends BaseEntity {
         return 'jfhjgjgjghsjdfjdhfjdf';
     }
 
-    
     // @BeforeInsert()
     // async lowerUserNameI() {
     //     this.username = this.username.toLocaleLowerCase();
