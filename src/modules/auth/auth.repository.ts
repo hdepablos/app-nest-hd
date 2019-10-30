@@ -25,17 +25,20 @@ export class AuthRepository extends Repository<UserEntity>{
         const user = new UserEntity();
         user.username = username.toLocaleLowerCase();
         user.password = password;
-        user.email = email;
+        user.email = email.toLocaleLowerCase();
 
         const roleRepository: RoleRepository = await getConnection().getRepository(RoleEntity);
 
         const arrRoles: RoleEntity[] = await roleRepository.find({
-            where: { isActive: true, id: In([3]) }
+            // where: { isActive: true, id: In([3]) }
+            where: { isActive: true, id: In(signupDto.roles) }
         });
 
         if (!arrRoles.length) throw new HttpException(`Not Found role id: [] o están inactivos`, HttpStatus.NOT_FOUND);
 
         const newUser = await usuario.create({ ...user, roles: arrRoles }).save();
-        return newUser.toResponseObject();
+        return newUser.toResponseObject(true);
     }
+
+    
 }

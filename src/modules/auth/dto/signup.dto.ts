@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsString, IsEmail } from "class-validator";
+import { IsNotEmpty, IsString, IsEmail, ArrayNotEmpty } from "class-validator";
+import { RoleEntity } from "src/modules/role/role.entity";
 
 export class SignupDto{
     @IsNotEmpty()
@@ -11,4 +12,7 @@ export class SignupDto{
 
     @IsEmail()
     email: string;
+
+    @ArrayNotEmpty()
+    roles: RoleEntity[];
 }

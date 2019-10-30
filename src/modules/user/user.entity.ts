@@ -2,6 +2,7 @@ import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, U
 import { RoleEntity } from "../role/role.entity";
 import { UserAccesoEntity } from "../user-acceso/user-acceso.entity";
 import { UserRO } from "./user.dto";
+import { genSalt, hash } from "bcryptjs";
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -19,7 +20,7 @@ export class UserEntity extends BaseEntity {
 
     @Column({
         type: 'varchar',
-        length: 20,
+        length: 75,
         nullable: false
     })
     password: string;
@@ -62,7 +63,7 @@ export class UserEntity extends BaseEntity {
     // updated: Date;
 
     toResponseObject(showToken: boolean = false): UserRO{
-        const { id, username, email, created, token, isActive } = this;
+        const { id, username, email, created, isActive } = this;
         const responseOject: any = {
             id, 
             username,
@@ -72,15 +73,22 @@ export class UserEntity extends BaseEntity {
         }
 
         if (this.roles) responseOject.roles = this.roles;
-        if (showToken) responseOject.token = token;
+        // if (showToken) responseOject.token = token;
         return responseOject;
     }
 
-    private get token():string {
-        const{ id, username } = this;
+    // private get token():string {
+    //     const{ id, username } = this;
         
-        // Mientras tanto
-        return 'jfhjgjgjghsjdfjdhfjdf';
+    //     // Mientras tanto
+    //     return 'jfhjgjgjghsjdfjdhfjdf';
+    // }
+
+    @BeforeInsert()
+    async hashPassword() {
+        const salt = await genSalt(10);
+        this.password = await hash(this.password, salt);
+        // this.password = await bcrypt.hash(this.password, 10);
     }
 
     // @BeforeInsert()
@@ -111,14 +119,12 @@ export class UserEntity extends BaseEntity {
     //     }
     // }
 
-    @BeforeInsert()
-    @BeforeUpdate()
-    hashPassword() {
-        console.log('*************************************');
-        
-        if (this.username) {
-            this.username = this.username.toLocaleLowerCase();
-        }
-    }
+    // @BeforeInsert()
+    // @BeforeUpdate()
+    // hashPassword() {
+    //     if (this.username) {
+    //         this.username = this.username.toLocaleLowerCase();
+    //     }
+    // }
     
 }

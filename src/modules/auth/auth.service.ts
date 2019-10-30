@@ -1,4 +1,4 @@
-import { Injectable, ConflictException, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, ConflictException, NotFoundException, UnauthorizedException, HttpException, HttpStatus } from '@nestjs/common';
 import { AuthRepository } from './auth.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
@@ -45,7 +45,7 @@ export class AuthService {
 
         const isMatch = await compare(password, user.password);
 
-        if (isMatch) throw new UnauthorizedException('invalid credentials');
+        if (!isMatch) throw new HttpException('invalid credentials', HttpStatus.UNAUTHORIZED);
 
         // const payload: IJwtPayload = {
         const payload = {

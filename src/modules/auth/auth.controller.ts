@@ -19,7 +19,7 @@ export class AuthController {
 
     @Post('signin')
     @UsePipes(new ValidationPipe)
-    async signin(@Body() signinDto: SigninDto){
+    async signin(@Body() signinDto: SigninDto){        
         return this._authService.signin(signinDto);
     }
 

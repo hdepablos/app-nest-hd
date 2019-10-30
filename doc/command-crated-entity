@@ -1,3 +1,8 @@
+Comandos migración de base de datos:
+    npm run migration:generate "PasswordExpandir"
+    npm run migration:run
+    npm run migration:revert
+
 Nota: no puede poner (_:) cambielo a -
 
     nest g mo modules/user-acceso && 

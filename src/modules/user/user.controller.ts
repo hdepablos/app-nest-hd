@@ -1,8 +1,9 @@
-import { Controller, Get, Param, Post, Body, Patch, Delete, UsePipes } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Patch, Delete, UsePipes, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDTO, UserRO } from './user.dto';
 import { UserEntity } from './user.entity';
 import { ValidationPipe } from './../../shared/validation.pipe';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('user')
 export class UserController {
@@ -16,6 +17,7 @@ export class UserController {
         return otra;
     }
 
+    @UseGuards(AuthGuard('jwt'))
     @Get()
     async getAll(): Promise<UserRO[]> {
         const users = this._userService.getAll()
