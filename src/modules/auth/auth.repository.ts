@@ -28,7 +28,7 @@ export class AuthRepository extends Repository<UserEntity>{
         user.email = email.toLocaleLowerCase();
 
         const roleRepository: RoleRepository = await getConnection().getRepository(RoleEntity);
-
+ 
         const arrRoles: RoleEntity[] = await roleRepository.find({
             // where: { isActive: true, id: In([3]) }
             where: { isActive: true, id: In(signupDto.roles) }

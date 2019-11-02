@@ -3,7 +3,9 @@ import { UserService } from './user.service';
 import { UserDTO, UserRO } from './user.dto';
 import { UserEntity } from './user.entity';
 import { ValidationPipe } from './../../shared/validation.pipe';
-import { AuthGuard } from '@nestjs/passport';
+// import { AuthGuard } from '@nestjs/passport';
+import { AuthGuard } from './../../shared/auth.guard';
+import { Ope } from "./user.decorator";
 
 @Controller('user')
 export class UserController {
@@ -17,9 +19,11 @@ export class UserController {
         return otra;
     }
 
-    @UseGuards(AuthGuard('jwt'))
+    @UseGuards(new AuthGuard())
     @Get()
-    async getAll(): Promise<UserRO[]> {
+    async getAll(@Ope() ope): Promise<UserRO[]> {
+        // console.log("Operador es:");
+        // console.log(ope);
         const users = this._userService.getAll()
         return users;
     }

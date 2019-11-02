@@ -24,7 +24,6 @@ import { Configuration } from './../../config/config.keys';
           secret: config.get(Configuration.JWT_SECRET),
           signOptions: {
             expiresIn: 3600,
-
           }
         }
       }
