@@ -10,9 +10,18 @@ Nota: no puede poner (_:) cambielo a -
     nest g s modules/user-acceso && 
     nest g interface modules/user-acceso/user-acceso && 
     touch src/modules/user-acceso/user-acceso.dto.ts && 
-    touch src/modules/user-acceso/user-acceso.entity.ts
+    touch src/modules/user-acceso/user-acceso.entity.ts &&
+    touch src/modules/user-acceso/user-acceso.repository.ts
 
 
+                      
+    nest g mo modules/sessions && 
+    nest g co modules/sessions && 
+    nest g s modules/sessions && 
+    nest g interface modules/sessions/sessions && 
+    touch src/modules/sessions/sessions.dto.ts && 
+    touch src/modules/sessions/sessions.entity.ts &&
+    touch src/modules/user-acceso/user-acceso.repository.ts
 
     nest g mo modules/user-roles && 
     nest g interface modules/user-roles/user-roles && 

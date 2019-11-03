@@ -43,6 +43,10 @@ export class AuthService {
 
         const isMatch = await compare(password, user.password);
 
+        // Verificar el último acceso al sistema
+        const nroDias = await this.diffFechas(user.last_access);
+        if (nroDias > 500) throw new HttpException('Excedido limit acceso sin ingresar al sistema', HttpStatus.UNAUTHORIZED);
+        
         if (!isMatch) throw new HttpException('invalid credentials', HttpStatus.UNAUTHORIZED);
 
         // const payload: IJwtPayload = {
@@ -55,6 +59,22 @@ export class AuthService {
 
         // const token = await this._jwtService.verifyAsync(payload);
         const token = await this._jwtService.sign(payload);
+
+        // Actualizar la fecha del acceso del sistema
+        user.last_access = new Date();
+        await this._authRepository.save(user);
+
         return {token};
+    }
+
+     async diffFechas(fechalastAccess: Date): Promise<number> {
+        const dateNow = new Date();
+        
+        const lastAccess = new Date(fechalastAccess);
+        const DateNow = new Date(dateNow.toLocaleDateString());
+
+        const diff = Math.abs(lastAccess.getTime() - DateNow.getTime());
+        
+        return (Math.ceil(diff / (1000 * 3600 * 24)));
     }
 }

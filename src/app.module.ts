@@ -11,9 +11,10 @@ import { UserModule } from './modules/user/user.module';
 import { RoleModule } from './modules/role/role.module';
 import { UserAccesoModule } from './modules/user-acceso/user-acceso.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { SessionsModule } from './modules/sessions/sessions.module';
 
 @Module({
-  imports: [ConfigModule, DatabaseModule, UserModule, RoleModule, UserAccesoModule, AuthModule],
+  imports: [ConfigModule, DatabaseModule, UserModule, RoleModule, UserAccesoModule, AuthModule, SessionsModule],
   controllers: [AppController],
   providers: [AppService,
     {
