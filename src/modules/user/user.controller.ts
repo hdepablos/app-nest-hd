@@ -22,8 +22,8 @@ export class UserController {
     @UseGuards(new AuthGuard())
     @Get()
     async getAll(@Ope() ope): Promise<UserRO[]> {
-        // console.log("Operador es:");
-        // console.log(ope);
+        console.log("Operador es:");
+        console.log(ope);
         const users = this._userService.getAll()
         return users;
     }

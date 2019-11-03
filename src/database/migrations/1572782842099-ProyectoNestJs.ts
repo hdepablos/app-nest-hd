@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class CreacionBD1572394491099 implements MigrationInterface {
-    name = 'CreacionBD1572394491099'
+export class ProyectoNestJs1572782842099 implements MigrationInterface {
+    name = 'ProyectoNestJs1572782842099'
 
     public async up(queryRunner: QueryRunner): Promise<any> {
         await queryRunner.query(`CREATE TABLE "user_acceso" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "sede_id" integer NOT NULL, "perfil_id" integer NOT NULL, "is_active" boolean NOT NULL DEFAULT true, "user_id" uuid, CONSTRAINT "PK_b42aee7bca002198c70607125f7" PRIMARY KEY ("id"))`, undefined);

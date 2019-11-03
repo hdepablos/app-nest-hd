@@ -59,6 +59,13 @@ export class UserEntity extends BaseEntity {
     @UpdateDateColumn()
     updated: Date;
 
+    @Column({ type: "date", nullable: false, default: ()=> 'CURRENT_DATE' })
+    last_access: Date;
+
+    // @Column({ type: "timestamp", nullable: false})
+    // last_request: Date;
+
+
     // @UpdateDateColumn()
     // updated: Date;
 
