@@ -8,6 +8,9 @@ import { UserEntity } from '../user/user.entity';
 import { compare } from 'bcryptjs';
 // import { IJwtPayload } from './jwt-payload.interface';
 import { RoleType } from '../role/roletype.enum';
+import { getConnection } from 'typeorm';
+import { SessionEntity } from '../sessions/sessions.entity';
+import { Util } from './../../shared/util';
 // import { SignupDto } from "./auth.dto"
 
 @Injectable()
@@ -17,36 +20,37 @@ export class AuthService {
         @InjectRepository(AuthRepository)
         private readonly _authRepository: AuthRepository,
         private readonly _jwtService: JwtService
-    ){}
+    ) { }
 
-    async signup(signupDto: SignupDto):Promise<UserRO>{
-        const {username, email} = signupDto;
+    async signup(signupDto: SignupDto): Promise<UserRO> {
+        const { username, email } = signupDto;
         const userExists = await this._authRepository
             .findOne({
-                where: [{username}, {email}]
-            }) 
-        
-        if(userExists) throw new ConflictException('username o email ya already exists');
+                where: [{ username }, { email }]
+            })
 
-        return this._authRepository.signup(signupDto); 
+        if (userExists) throw new ConflictException('username o email ya already exists');
+
+        return this._authRepository.signup(signupDto);
     }
 
-    async signin(signinDto: SigninDto): Promise<{ token: string }>{
+    async signin(signinDto: SigninDto): Promise<{ token: string }> {
         const { username, password } = signinDto;
 
         const user: UserEntity = await this._authRepository
             .findOne({
-                where: {username}, relations: ['roles']
+                where: { username }, relations: ['roles']
             });
 
-        if(!user) throw new NotFoundException("user does not exist");
+        if (!user) throw new NotFoundException("user does not exist");
 
         const isMatch = await compare(password, user.password);
 
-        // Verificar el último acceso al sistema
-        const nroDias = await this.diffFechas(user.last_access);
-        if (nroDias > 500) throw new HttpException('Excedido limit acceso sin ingresar al sistema', HttpStatus.UNAUTHORIZED);
-        
+        // Verificar el último acceso al sistema        
+        const nroDias = await Util.diffDias(user.last_access);
+
+        if (nroDias > 50) throw new HttpException('Excedido limit acceso sin ingresar al sistema', HttpStatus.UNAUTHORIZED);
+
         if (!isMatch) throw new HttpException('invalid credentials', HttpStatus.UNAUTHORIZED);
 
         // const payload: IJwtPayload = {
@@ -60,21 +64,21 @@ export class AuthService {
         // const token = await this._jwtService.verifyAsync(payload);
         const token = await this._jwtService.sign(payload);
 
+        // Incluir el registro de la session
+        // this._authRepository
+
         // Actualizar la fecha del acceso del sistema
         user.last_access = new Date();
         await this._authRepository.save(user);
 
-        return {token};
-    }
+        // Crear la session en badabase
+        const session = await getConnection().getRepository(SessionEntity);
+        const newSession = await session.create({
+            token,
+            usuarioAcceso: 1, // Este nro, debe ser el id usuario_acceso
+            last_request: new Date()
+        }).save();
 
-     async diffFechas(fechalastAccess: Date): Promise<number> {
-        const dateNow = new Date();
-        
-        const lastAccess = new Date(fechalastAccess);
-        const DateNow = new Date(dateNow.toLocaleDateString());
-
-        const diff = Math.abs(lastAccess.getTime() - DateNow.getTime());
-        
-        return (Math.ceil(diff / (1000 * 3600 * 24)));
+        return { token };
     }
 }

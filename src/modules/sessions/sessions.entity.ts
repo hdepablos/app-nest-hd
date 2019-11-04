@@ -1,4 +1,4 @@
-import { BaseEntity, Entity, PrimaryColumn, PrimaryGeneratedColumn, Column } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity('sessions')
 export class SessionEntity extends BaseEntity{
@@ -9,13 +9,14 @@ export class SessionEntity extends BaseEntity{
     @Column({
         type: 'varchar',
         length: 300,
-        nullable: false
+        nullable: false,
+        unique: true
     })
     token: string;
 
     // Ojo en el futuro esta se debe relacionar con la entidad usuario_acceso
     @Column({ type: 'integer', nullable: false, name: 'usuario_acceso' })
-    usuarioAcceso: boolean;
+    usuarioAcceso: number;
 
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
     last_request: Date;
@@ -23,11 +24,9 @@ export class SessionEntity extends BaseEntity{
     @Column({ type: 'boolean', default: true, name: 'is_active' })
     isActive: boolean;
 
-
     // @CreateDateColumn()
     // created: Date;
 
     // @UpdateDateColumn()
     // updated: Date;
-
 }

@@ -2,10 +2,12 @@
 
 -- Listo actualizar por transacciones
 
-Funciones antes de guardar en base de datos
+-- Listo Funciones antes de guardar en base de datos
 
 restrinciones en la tabla n:n user_roles
     user_id - role_id = no se puede repetir en base de datos
 
-login
+Crear indice para sessions con token
+
+-- Listo login
 

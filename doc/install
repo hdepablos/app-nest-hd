@@ -15,3 +15,7 @@ npm i @nestjs/passport @nestjs/jwt passport-jwt bcryptjs jsonwebtoken
 npm i -D @types/bcryptjs @types/passport @types/passport-jwt
 
 npm i passport -S
+
+
+npm install moment -save
+    import * as moment from 'moment';

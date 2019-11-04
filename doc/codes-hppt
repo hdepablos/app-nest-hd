@@ -1,0 +1,14 @@
+1xx: Informativo - Solicitud recibida, proceso continuo
+
+2xx: Éxito: la acción se recibió, entendió y aceptó con éxito
+
+3xx: Redirección: se deben tomar medidas adicionales para completar la solicitud
+
+4xx: Error del cliente: la solicitud contiene una sintaxis incorrecta o no se puede cumplir
+
+5xx: Error del servidor: el servidor no pudo cumplir una solicitud aparentemente válida [1]:
+
+
+
+Custom:
+    460: Bloqueo, limit de tiempo excedido por la ultima petición

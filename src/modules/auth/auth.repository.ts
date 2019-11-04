@@ -12,13 +12,12 @@ export class AuthRepository extends Repository<UserEntity>{
     async signup(signupDto: SignupDto){
         const {username, password, email} = signupDto;
 
-        // validar que el usuario no exista por medio del username y email
+        // validar que el usuario no exista el username o email
         const usuario = await getConnection().getRepository(UserEntity);
-
         const userExist = await usuario.findOne({
-                where: [{ username }, { email }]
-                // where: [{ username: username.toLocaleLowerCase() }, { email }]
-            });
+            where: [{ username }, { email }]
+            // where: [{ username: username.toLocaleLowerCase() }, { email }]
+        });
 
         if (userExist) throw new HttpException('username o email already exists', HttpStatus.CONFLICT);
 
@@ -34,11 +33,11 @@ export class AuthRepository extends Repository<UserEntity>{
             where: { isActive: true, id: In(signupDto.roles) }
         });
 
+        
         if (!arrRoles.length) throw new HttpException(`Not Found role id: [] o están inactivos`, HttpStatus.NOT_FOUND);
-
+        
         const newUser = await usuario.create({ ...user, roles: arrRoles }).save();
+        
         return newUser.toResponseObject(true);
     }
-
-    
 }
