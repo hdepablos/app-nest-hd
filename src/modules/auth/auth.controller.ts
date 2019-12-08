@@ -4,6 +4,7 @@ import { SignupDto, SigninDto, TokenDto } from './dto';
 import { AuthService } from './auth.service';
 import { UserRO } from '../user/user.dto';
 import { AuthGuard } from './../../shared/auth.guard';
+import { Session } from './session.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -17,15 +18,15 @@ export class AuthController {
 
   @Post('signin')
   @UsePipes(new ValidationPipe())
-  async signin(@Body() signinDto: SigninDto) {
-    return this._authService.signin(signinDto);
+  async signin(@Body() signinDto: SigninDto): Promise<Session> {
+    return await this._authService.signin(signinDto);
   }
 
   @UseGuards(new AuthGuard())
   @Post('logout')
   @UsePipes(new ValidationPipe())
   async logout(@Body() tokenDto: TokenDto) {
-    this._authService.logout(tokenDto);
+    const retorno = await this._authService.logout(tokenDto);
     return true;
   }
 }

@@ -18,6 +18,8 @@ import { RoleType } from '../role/roletype.enum';
 import { getConnection, Repository } from 'typeorm';
 import { SessionEntity } from '../sessions/sessions.entity';
 import { Util } from './../../shared/util';
+
+import { Session } from './session.interface';
 // import { SignupDto } from "./auth.dto"
 
 @Injectable()
@@ -42,7 +44,7 @@ export class AuthService {
     return this._authRepository.signup(signupDto);
   }
 
-  async signin(signinDto: SigninDto): Promise<{ token: string }> {
+  async signin(signinDto: SigninDto): Promise<Session> {
     const { username, password } = signinDto;
 
     const user: UserEntity = await this._authRepository.findOne({
@@ -94,7 +96,18 @@ export class AuthService {
       })
       .save();
 
-    return { token };
+    // const retorno = {
+    //     username: user.username,
+    //     nombre: "Depablos Héctor",
+    //     email: user.email,
+    //     token,
+    // };
+    return {
+      username: 'hdepablos',
+      //   nombre: 'Depablos Héctor',
+      email: user.email,
+      token,
+    };
   }
 
   async logout(token: TokenDto) {
