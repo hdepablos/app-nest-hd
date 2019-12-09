@@ -1,0 +1,5 @@
+INSERT INTO public.roles (id,"name",description,is_active) VALUES 
+(1,'Administrador','Administrador full roles',true)
+,(2,'Analista','Analista de venta',true)
+,(3,'General','Acceso básico',true)
+;

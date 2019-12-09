@@ -1,0 +1,22 @@
+orm.config.json
+{
+    "type": "postgres",
+    "username": "postgres",
+    "password": "postgres",
+    "host": "localhost",
+    "port": "5432",
+    "database": "bookstore",
+    "entities": ["src/modules/**/*.entity{.ts,.js}"],
+    "migrations": ["src/database/migrations/*{.ts,.js}"],
+    "cli": {
+        "migrationsDir": "src/database/migrations"
+    }
+}
+
+.env
+PORT=8000
+HOST=localhost
+USERNAME=postgres
+PASSWORD=postgres
+DATABASE=bookstore
+JWT_SECRET=alaksjdasfadf65+6-*/5+620.12
